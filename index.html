@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Sync4D</title>
+
+    <meta name="description" content="Sync4D">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:image" content=""> 
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1711">
+    <meta property="og:image:height" content="576">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content=""/>
+    <meta property="og:title" content="Sync4D: Video Guided Controllable Dynamics for Physics-Based 4D Generation" />
+    <meta property="og:description" content="Sync4D: Video Guided Controllable Dynamics for Physics-Based 4D Generation. Abstract: In this work, we introduce a novel approach for creating controllable dynamics in 3D-generated Gaussians using casually captured reference videos. Our method transfers the motion of objects from reference videos to a variety of generated 3D Gaussians across different categories, ensuring precise and customizable motion transfer. We achieve this by employing blend skinning-based non-parametric shape reconstruction to extract the shape and motion of reference objects. This process involves segmenting the reference objects into motion-related parts based on skinning weights and establishing shape correspondences with generated target shapes. To address shape and temporal inconsistencies prevalent in existing methods, we integrate physical simulation, driving the target shapes with matched motion. This integration is optimized through a displacement loss to ensure reliable and genuine dynamics. Our approach supports diverse reference inputs, including humans, quadrupeds, and articulated objects, and can generate dynamics of arbitrary length, providing enhanced fidelity and applicability. Unlike methods heavily reliant on diffusion video generation models, our technique offers specific and high-quality motion transfer, maintaining both shape integrity and temporal consistency."/>
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sync4D: Video Guided Controllable Dynamics for Physics-Based 4D Generation" />
+    <meta name="twitter:description" content="Abs2"/>
+    <meta name="twitter:image" content="" />
+
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22></text></svg>">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+	<link rel="stylesheet" href="css/fontawesome.all.min.css">
+	<link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+	<script defer src="js/fontawesome.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+    <script src="js/app.js"></script>
+    <!-- <script src="js/synced_video_selector.js"></script> -->
+
+</head>
+
+<body style="padding: 1%; width: 100%">
+    <div class="container-lg text-center" style="max-width: 1500px; margin: auto;" id="main">
+    <!-- <div class="container" id="main"> -->
+        <div class="row">
+            <h2 class="col-md-12 text-center">
+                <b>Sync4D</b>: Video Guided Controllable Dynamics for Physics-Based 4D Generation</br> 
+            </h2>
+        </div>
+        
+        <div class="row text-center">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-6 text-center">
+                <ul class="list-inline">
+                    <li>
+                        <a>
+                            Zhoujie Fu
+                        </a><sup>*,1</sup>
+                    </li>
+                    <li>
+                        <a>
+                            Jiacheng Wei
+                        </a><sup>*,1</sup>
+                    </li>
+                    <li>
+                        <a>
+                            Wenhao Shen
+                        </a><sup>1</sup>
+                    </li>
+                    <li>
+                        <a>
+                            Chaoyue Song
+                        </a><sup>1</sup>
+                    </li>
+                    <wbr>
+                    <br>
+                    <li>
+                        <a>
+                            Xiaofeng Yang
+                        </a><sup>1</sup>
+                    </li>
+                    <li>
+                        <a>
+                            Fayao Liu
+                        </a><sup>2</sup>
+                    </li>
+                    <li>
+                        <a>
+                            Xulei Yang
+                        </a><sup>2</sup>
+                    </li>
+                    <li>
+                        <a>
+                            Guosheng Lin
+                        </a><sup>1</sup>
+                    </li>
+                    <wbr>
+                    <!-- </br>Google -->
+                </ul>
+            </div>
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-12 text-center">
+                <sup>1</sup>Nanyang Technological University, &nbsp <sup>2</sup>Institute for Infocomm Research, A*STAR, Singapore
+            </div>
+            <!-- <div class="col-md-12 text-center">
+                * equal contribution
+            </div> -->
+        </div>
+
+        <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2405.16849"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    4D generation on various types of objects
+                </h3>
+                <video id="co3d-grid" width="100%" autoplay loop muted controls>
+                    <source src="assets/videos/teaser_videos/Sync4D_demo.mp4" type="video/mp4" />
+                </video>
+                <br>
+                <p class="text-justify" style="text-align: center;">Sync4D enables high-quality 4D generation while maintaining shape consistency and motion correctness, guided by casually captured videos.</p>
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Abstract
+                </h3>
+                <p class="text-justify">
+                    In this work, we introduce a novel approach for creating controllable dynamics in 3D-generated Gaussians using casually captured reference videos. Our method transfers the motion of objects from reference videos to a variety of generated 3D Gaussians across different categories, ensuring precise and customizable motion transfer. We achieve this by employing blend skinning-based non-parametric shape reconstruction to extract the shape and motion of reference objects. This process involves segmenting the reference objects into motion-related parts based on skinning weights and establishing shape correspondences with generated target shapes. To address shape and temporal inconsistencies prevalent in existing methods, we integrate physical simulation, driving the target shapes with matched motion. This integration is optimized through a displacement loss to ensure reliable and genuine dynamics. Our approach supports diverse reference inputs, including humans, quadrupeds, and articulated objects, and can generate dynamics of arbitrary length, providing enhanced fidelity and applicability. Unlike methods heavily reliant on diffusion video generation models, our technique offers specific and high-quality motion transfer, maintaining both shape integrity and temporal consistency.
+                </p>
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+				  <b> Sync4D</b> = <font color="#118ab2">Reference Shape and Motion</font> + <font color="#ef486e">Object Parts Matching</font> + <font color="#34eb4c">Physics-Based Motion Driven</font>
+                </h3>
+                <br>
+                <image src="assets/figures/pipeline.png" width=90% style="display: block; margin: auto;"></image>
+                <br>
+                <p class="text-justify">
+                    Sync4D processes a reference video to derive a canonical shape and a bone-based motion sequence through reconstruction techniques.  Meanwhile, given a text prompt or image prompt, we generate a 3D Gaussian object through diffusion models. The framework matches motion-related parts from the reconstructed shape to the generated shape and transfers the motion. This motion information is then initialized into the velocity physical signals. We employ a triplane representation to produce a delta velocity field to adjust physical signals. The velocity field for each part of the target is optimized using the differentiable Material Point Method (MPM) simulation. To ensure fidelity to the original, a displacement loss is designed to reduce cumulative errors and ensure plausible motions.
+                </p>
+            </div>
+        </div><br><br>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+				    Results gallery
+                </h3><br>
+                <p class="text-justify">
+                    We present a gallery showcasing our results in transferring motions to general 3D static object from human, quadruped, and articulated object.
+                </p>
+                <h3>
+                    Ref Video: Human
+                </h3><br>
+                <div class="text-center">
+                    <div class="video-container">
+                        <video class="video" style="height: 512px; max-width: 100%;" m id="refVideo0" loop playsinline autoplay muted>
+                            <source src="assets/videos/human/human.mp4" />
+                        </video>
+                    </div>
+                </div>
+                <div class="pill-row scene-pills" id="scene-pills">
+                    <span class="pill scene-pill" data-value="monkey" onclick="selectHumanVideo(this)">
+                        <img class="thumbnail-img" src="assets/thumbnails/monkey.png" alt="monkey" width="64">
+                    </span>
+                    <span class="pill scene-pill active" data-value="cross" onclick="selectHumanVideo(this)">
+                        <img class="thumbnail-img" src="assets/thumbnails/cross.png" alt="cross" width="64">
+                    </span>
+                    <span class="pill scene-pill" data-value="lamp" onclick="selectHumanVideo(this)">
+                        <img class="thumbnail-img" src="assets/thumbnails/lamp.png" alt="lamp" width="64">
+                    </span>
+                </div>
+
+                <div class="text-center">
+                    <div class="video-container">
+                        <video class="video" style="height: 512px; max-width: 100%;" m id="humanVideo" loop playsinline autoplay muted>
+                            <source src="assets/videos/human/human2monkey.mp4" />
+                        </video>
+                    </div>
+                </div>
+
+                <script>
+                    activeScenePill = document.querySelector('.scene-pill.active');
+                </script>
+                
+            </div>
+        </div>
+        <br>
+        <br>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Ref Video: Cat
+                </h3><br>
+                <div class="text-center">
+                    <div class="video-container">
+                        <video class="video" style="height: 512px; max-width: 100%;" m id="refVideo1" loop playsinline autoplay muted>
+                            <source src="assets/videos/cat/cat.mp4" />
+                        </video>
+                    </div>
+                </div>
+                <div class="pill-row scene-pills" id="scene-pills">
+                    <span class="pill scene-pill" data-value="chair" onclick="selectCatVideo(this)">
+                        <img class="thumbnail-img" src="assets/thumbnails/cartoon_chair.png" alt="chair" width="64">
+                    </span>
+                    <span class="pill scene-pill" data-value="giraffe" onclick="selectCatVideo(this)">
+                        <img class="thumbnail-img" src="assets/thumbnails/giraffe.png" alt="giraffe" width="64">
+                    </span>
+                    <span class="pill scene-pill" data-value="caldero" onclick="selectCatVideo(this)">
+                        <img class="thumbnail-img" src="assets/thumbnails/caldero.png" alt="caldero" width="64">
+                    </span>
+                    <span class="pill scene-pill" data-value="table" onclick="selectCatVideo(this)">
+                        <img class="thumbnail-img" src="assets/thumbnails/table.png" alt="table" width="64">
+                    </span>
+                </div>
+
+                <div class="text-center">
+                    <div class="video-container">
+                        <video class="video" style="height: 512px; max-width: 100%;" m id="catVideo" loop playsinline autoplay muted>
+                            <source src="assets/videos/cat/cat2chair.mp4" />
+                        </video>
+                    </div>
+                </div>
+
+                <script>
+                    activeScenePill = document.querySelector('.scene-pill.active');
+                </script>
+                
+            </div>
+        </div>
+        <br>
+        <br>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Ref Video: Laptop
+                </h3><br>
+                <div class="text-center">
+                    <div class="video-container">
+                        <video class="video" style="height: 512px; max-width: 100%;" m id="refVideo2" loop playsinline autoplay muted>
+                            <source src="assets/videos/laptop/laptop.mp4" />
+                        </video>
+                    </div>
+                </div>
+                <div class="pill-row scene-pills" id="scene-pills">
+                    <span class="pill scene-pill" data-value="shell" onclick="selectLaptopVideo(this)">
+                        <img class="thumbnail-img" src="assets/thumbnails/shell.png" alt="shell" width="64">
+                    </span>
+                    <span class="pill scene-pill" data-value="chest" onclick="selectLaptopVideo(this)">
+                        <img class="thumbnail-img" src="assets/thumbnails/chest.png" alt="chest" width="64">
+                    </span>
+                </div>
+
+                <div class="text-center">
+                    <div class="video-container">
+                        <video class="video" style="height: 512px; max-width: 100%;" m id="laptopVideo" loop playsinline autoplay muted>
+                            <source src="assets/videos/laptop/laptop2shell.mp4" />
+                        </video>
+                    </div>
+                </div>
+
+                <script>
+                    activeScenePill = document.querySelector('.scene-pill.active');
+                </script>
+                
+            </div>
+        </div>
+        <br>
+        <br>
+
+
+            
+        <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Citation
+                </h3>
+                <div class="form-group col-md-10 col-md-offset-1">
+                    <textarea id="bibtex" class="form-control" readonly>
+@article{zhang2024physdreamer,
+    title={{PhysDreamer}: Physics-Based Interaction with 3D Objects via Video Generation},
+    author={Tianyuan Zhang and Hongxing-Yu and Rundi Wu and
+            Brandon Y. Feng and Changxi Zheng and Noah Snavely and Jiajun Wu and William T. Freeman},
+    journal={arxiv},
+    year={2024}
+}</textarea>
+                </div>
+            </div> -->
+        
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h3>Citation</h3>
+                    <div class="form-group">
+                        <textarea id="bibtex" class="form-control" readonly aria-label="BibTeX Citation for Copying" onclick="this.select();" onfocus="this.select();" style="height: 160px;">
+                            @misc{fu2024sync4d,
+                                title={Sync4D: Video Guided Controllable Dynamics for Physics-Based 4D Generation}, 
+                                author={Zhoujie Fu and Jiacheng Wei and Wenhao Shen and Chaoyue Song and Xiaofeng Yang and Fayao Liu and Xulei Yang and Guosheng Lin},
+                                year={2024},
+                                eprint={2405.16849},
+                                archivePrefix={arXiv},
+                                primaryClass={cs.CV}
+                          }</textarea>
+</div>
+</div>
+</div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Acknowledgements
+                </h3>
+                <p class="text-justify">
+                The website template was borrowed from <a href="https://physdreamer.github.io/">PhysDreamer</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
